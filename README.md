@@ -5,6 +5,8 @@
 [Download Ollama](https://ollama.com/download)
 ## Pull Ollama model that you wish
 `ollama pull <model_name>`
+## Installing Requirements
+`pip install -r requirements.txt`
 ## Initalise Bot
 `python3 bot_response.py <book_name> <model_name> <db_name>`
 ## Start Flask app
