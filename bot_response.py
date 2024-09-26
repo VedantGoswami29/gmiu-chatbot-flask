@@ -32,12 +32,12 @@ class ChatBot:
     
     def promptTemplate(self):
         template = """
-        Answer the question based on the context below as short as possible. If you can't 
-        answer the question, reply "I Don't Know".
+        Answer the question as detailed as possible from the provided context, make sure to provide all the details, if the answer is not in
+        provided context just say, "I don't know", don't provide the wrong answer\n\n
+        Context:\n {context}?\n
+        Question: \n{question}\n
 
-        Context: {context}
-
-        Question: {question}
+        Answer:
         """
         self.prompt = PromptTemplate.from_template(template)
         self.prompt.format(context="Here is some context", question="Here is a question")
