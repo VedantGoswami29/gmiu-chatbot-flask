@@ -67,5 +67,10 @@ class ChatBot:
     
 
 if __name__ == "__main__":
-    args = sys.argv[1:]
-    bot = ChatBot(*args)
+    try:
+        args = sys.argv[1:]
+        bot = ChatBot(*args)
+        print(f"Vectorstore database stored successfull in {os.path.abspath(args[2])}")
+    except Exception as e:
+        print(e)
+        print("or start Ollama server by running `ollama serve` in your terminal")
