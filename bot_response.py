@@ -73,4 +73,4 @@ if __name__ == "__main__":
         print(f"Vectorstore database stored successfull in {os.path.abspath(args[2])}")
     except Exception as e:
         print(e)
-        print("or start Ollama server by running `ollama serve` in your terminal")
+        print(f"Error: Run either Ollama server by running `ollama serve` in your terminal if you didn't started or `ollama pull {args[1]}` if you didn't installed {args[1]} model in your local machine")
