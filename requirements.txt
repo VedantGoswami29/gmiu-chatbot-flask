@@ -1,5 +1,6 @@
 langchain
 langchain-community
+Langchain-ollama
 langchain-core
 pypdf
 faiss-cpu

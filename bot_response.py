@@ -1,8 +1,7 @@
-from langchain_community.llms import Ollama
-from langchain_community.embeddings import OllamaEmbeddings
+from langchain_ollama import OllamaLLM, OllamaEmbeddings
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
-from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import PyPDFLoader, TextLoader
 from langchain_community.vectorstores import FAISS
 from operator import itemgetter
 import os
@@ -11,12 +10,12 @@ import sys
 
 
 class ChatBot:
-    def __init__(self, pdf, model, db='db'):
-        self.PDF = pdf
+    def __init__(self, file, model, db='db'):
+        self.FILE = file
         self.MODEL_NAME = model
         self.FAISS_DB_NAME = db
-        self.model = Ollama(model=self.MODEL_NAME)
-        self.embedding = OllamaEmbeddings(model=self.MODEL_NAME)
+        self.model = OllamaLLM(model=self.MODEL_NAME)
+        self.embedding = OllamaEmbeddings(model="nomic-embed-text")
 
         self.chain = (
             {"context": itemgetter("question") | self.generate_vectorstore_and_retriever(),
@@ -32,12 +31,11 @@ class ChatBot:
     
     def promptTemplate(self):
         template = """
-        Answer the question as detailed as possible from the provided context, make sure to provide all the details, if the answer is not in
-        provided context just say, "I don't know", don't provide the wrong answer\n\n
-        Context:\n {context}?\n
-        Question: \n{question}\n
+        Answer the question based on the context below. If you can't 
+        answer the question, reply "I don't know". Provide only the answer without any additional information.
+        Context: {context}
 
-        Answer:
+        Question: {question}
         """
         self.prompt = PromptTemplate.from_template(template)
         self.prompt.format(context="Here is some context", question="Here is a question")
@@ -46,7 +44,7 @@ class ChatBot:
     
     def generate_vectorstore_and_retriever(self):
         if self.FAISS_DB_NAME not in os.listdir():
-            loader = PyPDFLoader(self.PDF)
+            loader = PyPDFLoader(self.FILE) if self.FILE.lower().endswith(".pdf") else TextLoader(self.FILE)
             pages = loader.load_and_split()
             vectorstore = FAISS.from_documents(documents=pages, embedding=self.embedding)
             vectorstore.save_local(self.FAISS_DB_NAME)
@@ -63,7 +61,7 @@ class ChatBot:
     
 
     def __str__(self):
-        return f"{self.PDF}/{self.MODEL_NAME}/{self.FAISS_DB_NAME}"
+        return f"{self.FILE}/{self.MODEL_NAME}/{self.FAISS_DB_NAME}"
     
 
 if __name__ == "__main__":

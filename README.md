@@ -16,9 +16,13 @@ As Example, **llama3**, **mistral**, etc. You can checkout from [Ollama Librabry
 ### Make sure start Ollama local server on your machine
 `ollama serve`
 
-### Now initializing your ChatBot 
-`python3 bot_response.py <book_name> <model_name> <db_name>`
+### Pull "nomic-embed-text" your machine
+`ollama pull nomic-embed-text`
 
+### Now initializing your ChatBot 
+`python3 bot_response.py <file_name> <model_name> <db_name>`
+
+Here **file_name** is data that you want make ChatBot.
 This may take few minutes to execute depending on your hardware.
 ### Start Flask app
-`python3 app.py`
+`python3 app.py <file_name> <model_name> <db_name>`
