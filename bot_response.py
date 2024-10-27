@@ -1,7 +1,7 @@
 from langchain_ollama import OllamaLLM, OllamaEmbeddings
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
-from langchain_community.document_loaders import PyPDFLoader, TextLoader
+from langchain_community.document_loaders import PyPDFLoader, TextLoader, CSVLoader
 from langchain_community.vectorstores import FAISS
 from operator import itemgetter
 import os
@@ -11,7 +11,7 @@ import sys
 
 class ChatBot:
     def __init__(self, file, model, db='db'):
-        self.FILE = file
+        self.FILE = str(file)
         self.MODEL_NAME = model
         self.FAISS_DB_NAME = db
         self.model = OllamaLLM(model=self.MODEL_NAME)
@@ -41,10 +41,18 @@ class ChatBot:
         self.prompt.format(context="Here is some context", question="Here is a question")
 
         return self.prompt
-    
+    def file_loader(self):
+        if self.FILE.lower().endswith(".pdf"):
+            return PyPDFLoader(self.FILE)
+        elif self.FILE.lower().endswith(".txt"):
+            return TextLoader(self.FILE)
+        elif self.FILE.lower().endswith(".csv"):
+            return CSVLoader(self.FILE)
+        else:
+            return None
     def generate_vectorstore_and_retriever(self):
         if self.FAISS_DB_NAME not in os.listdir():
-            loader = PyPDFLoader(self.FILE) if self.FILE.lower().endswith(".pdf") else TextLoader(self.FILE)
+            loader = self.file_loader()
             pages = loader.load_and_split()
             vectorstore = FAISS.from_documents(documents=pages, embedding=self.embedding)
             vectorstore.save_local(self.FAISS_DB_NAME)
