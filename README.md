@@ -16,8 +16,8 @@ As Example, **llama3**, **mistral**, etc. You can checkout from [Ollama Librabry
 ### Make sure start Ollama local server on your machine
 `ollama serve`
 
-### Pull "nomic-embed-text" your machine
-`ollama pull nomic-embed-text`
+### Pull "mxbai-embed-large" your machine
+`ollama pull mxbai-embed-large`
 
 ### Now initializing your ChatBot 
 `python3 bot_response.py <file_name> <model_name> <db_name>`

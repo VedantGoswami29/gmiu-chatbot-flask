@@ -21,7 +21,7 @@ class ChatBot:
             # presence_penalty=0.2,
             # stop_sequences=["\n"]
         )
-        self.embedding = OllamaEmbeddings(model="nomic-embed-text")
+        self.embedding = OllamaEmbeddings(model="mxbai-embed-large")
 
         self.chain = (
             {"context": itemgetter("question") | self.generate_vectorstore_and_retriever(),
