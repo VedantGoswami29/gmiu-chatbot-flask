@@ -125,8 +125,8 @@ if __name__ == "__main__":
         print(f"Vectorstore database stored successfully in {os.path.abspath(args[2])}")
         while True:
             question = input("User >>> ")
+            if question.lower() == "/bye": break
             response = bot.askQuestion(question)
-            if response.lower() == "/bye": break
             print(f"GMIU >>> {response}")
     except Exception as e:
         print(e)
