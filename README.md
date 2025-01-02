@@ -20,7 +20,7 @@ As Example, **llama3**, **mistral**, etc. You can checkout from [Ollama Librabry
 `ollama pull mxbai-embed-large`
 
 ### Now initializing your ChatBot 
-`python3 bot_response.py <file_name> <model_name> <db_name>`
+`python3 embedding_genrator.py <file_name> <db_name>`
 
 Here **file_name** is data that you want make ChatBot.
 This may take few minutes to execute depending on your hardware.
