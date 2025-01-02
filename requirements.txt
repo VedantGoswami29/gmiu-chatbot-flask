@@ -6,3 +6,4 @@ langchain-chroma
 pypdf
 chromadb
 flask
+python-dotenv
