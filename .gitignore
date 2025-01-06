@@ -7,3 +7,4 @@ db*
 __pycache__/
 .codegpt
 !prompt.txt
+!requirements.txt

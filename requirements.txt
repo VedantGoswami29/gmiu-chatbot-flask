@@ -1,0 +1,11 @@
+langchain
+langchain-community
+Langchain-ollama
+langchain-core
+langchain-chroma
+pypdf
+chromadb
+flask
+markdown
+SpeechRecognition
+pydub
