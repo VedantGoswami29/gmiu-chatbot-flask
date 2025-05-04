@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from bot import ChatBot
 import sys
 import markdown
@@ -6,7 +6,7 @@ import markdown
 app = Flask(__name__)
 
 # Initialize the chatbot with the path to the PDF
-chatbot = ChatBot(*sys.argv[1:])
+chatbot = ChatBot()
 
 @app.route('/')
 def home():
@@ -14,10 +14,10 @@ def home():
 
 @app.route('/getanswer', methods=['POST'])
 def get_answer():
-    user_input = request.form.get('msg', '')
+    user_input = request.json.get('msg', '')
     answer = chatbot.askQuestion(user_input)
     html = markdown.markdown(answer, extensions=["md_in_html"])
-    return html
+    return jsonify({"answer": html})
 
 if __name__ == '__main__':
     # Set your custom port number here
