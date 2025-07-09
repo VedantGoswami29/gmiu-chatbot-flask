@@ -9,7 +9,8 @@ load_dotenv()
 BASE_URL = os.getenv('BASE_URL', "127.0.0.1:11434")
 CHROMA_DB_NAME = os.getenv('CHROMA_DB_NAME', "db")
 EMBEDDING_MODEL = os.getenv('EMBEDDING_MODEL', "mxbai-embed-large")
-FILES = eval(os.getenv('FILES', "[]"))
+TEXT_FOLDER = os.getenv("TEXT_FOLDER", None)
+FILES = [f"{TEXT_FOLDER}/{file}" for file in os.listdir(TEXT_FOLDER)] if TEXT_FOLDER else eval(os.getenv('FILES', "[]"))
 
 embedding = OllamaEmbeddings(model=EMBEDDING_MODEL, base_url=BASE_URL)
 documents = []
@@ -72,7 +73,7 @@ for file_path in FILES:
 
     for doc in parsed_docs:
         if not "answer" in doc:
-            print(f"Skipping entry with missing answer: {doc['id']}, {doc["question"]}")
+            print(f"Skipping entry with missing answer: {doc['id']}, {doc['question']}")
             continue
         documents.append(Document(
             page_content=f"Question: {doc['question']}\nAnswer: {doc['answer']}\nReferences: {doc.get('references', '')}",
