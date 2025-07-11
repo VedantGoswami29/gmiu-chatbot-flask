@@ -7,5 +7,3 @@ pypdf
 chromadb
 flask
 markdown
-SpeechRecognition
-pydub
